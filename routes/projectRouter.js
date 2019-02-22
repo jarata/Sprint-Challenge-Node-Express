@@ -62,9 +62,24 @@ router.get('/:id', async (req, res) => {
 //       .then(actions => actions.map(action => mappers.actionToBody(action)));
 //   },
 
-// router.get('/:id', async (req, res) => {
-//
-// });
+router.get('/:id/actions', async (req, res) => {
+    const {id} = req.params;
+    const projectAction = await Projects.getProjectActions(id);
+    try {
+        if (projectAction) {
+            res.status(200).json(projectAction);
+        } else {
+            res.status(404).json({
+                error: "The project's actions with the specified ID does not exist"
+            })
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            error: "The project's actions information could not be retrieved"
+        })
+    }
+});
 
 //   insert: function(project) {
 //     return db('projects')
