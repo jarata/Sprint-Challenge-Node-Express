@@ -16,21 +16,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-//get: function(id) {
-//   let query = db('actions');
-//
-//   if (id) {
-//     return query
-//         .where('id', id)
-//         .first()
-//         .then(action => mappers.actionToBody(action));
-//   }
-//
-//   return query.then(actions => {
-//     return actions.map(action => mappers.actionToBody(action));
-//   });
-// },
-
 router.get('/:id', async (req, res) => {
     const {id} = req.params;
     const action = await Actions.get(id);
@@ -50,12 +35,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// insert: function(action) {
-//   return db('actions')
-//       .insert(action)
-//       .then(([id]) => this.get(id));
-// },
-
 router.post('/', async (req, res) => {
     const action = await Actions.insert(req.body);
     try {
@@ -70,13 +49,6 @@ router.post('/', async (req, res) => {
         })
     }
 });
-
-// update: function(id, changes) {
-//   return db('actions')
-//       .where('id', id)
-//       .update(changes)
-//       .then(count => (count > 0 ? this.get(id) : null));
-// },
 
 router.put('/:id', async (req, res) => {
     const {id} = req.params;
@@ -101,12 +73,6 @@ router.put('/:id', async (req, res) => {
         })
     }
 });
-
-// remove: function(id) {
-//   return db('actions')
-//       .where('id', id)
-//       .del();
-// },
 
 router.delete('/:id', async (req, res) => {
     try {
