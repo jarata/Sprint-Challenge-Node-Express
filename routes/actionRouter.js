@@ -56,9 +56,20 @@ router.get('/:id', async (req, res) => {
 //       .then(([id]) => this.get(id));
 // },
 
-// router.post('/', async (req, res) => {
-//
-// });
+router.post('/', async (req, res) => {
+    const action = await Actions.insert(req.body);
+    try {
+        res.status(201).json({
+            message: "Action successfully created",
+            action
+        })
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            error: "The action could not be created"
+        })
+    }
+});
 
 // update: function(id, changes) {
 //   return db('actions')
