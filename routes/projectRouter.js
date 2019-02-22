@@ -37,9 +37,24 @@ router.get('/', async (req, res) => {
 //     });
 //   },
 
-// router.get('/:id', async (req, res) => {
-//
-// });
+router.get('/:id', async (req, res) => {
+    const {id} = req.params;
+    const project = await Projects.get(id);
+    try {
+        if (project) {
+            res.status(200).json(project);
+        } else {
+            res.status(404).json({
+                error: "The project with the specified ID does not exist"
+            })
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            error: "The project information could not be retrieved"
+        })
+    }
+});
 
 //   getProjectActions: function(projectId) {
 //     return db('actions')
@@ -57,9 +72,20 @@ router.get('/', async (req, res) => {
 //       .then(([id]) => this.get(id));
 //   },
 
-// router.post('/', async (req, res) => {
-//
-// });
+router.post('/', async (req, res) => {
+    const project = await Projects.insert(req.body);
+    try {
+        res.status(201).json({
+            message: "Project successfully created",
+            project
+        })
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            error: "The project could not be created"
+        })
+    }
+});
 
 //   update: function(id, changes) {
 //     return db('projects')
