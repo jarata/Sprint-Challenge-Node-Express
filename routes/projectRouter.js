@@ -1,6 +1,21 @@
 const express = require('express');
 const Projects = require('../data/helpers/projectModel');
 
+const router = express.Router();
+
+router.get('/', async (req, res) => {
+    try {
+        const project = await Projects.get();
+        res.status(200).json(project)
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            error: "The projects information could not be retrieved."
+        })
+
+    }
+});
+
 //get: function(id) {
 //     let query = db('projects as p');
 //
