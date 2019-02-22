@@ -78,9 +78,29 @@ router.post('/', async (req, res) => {
 //       .then(count => (count > 0 ? this.get(id) : null));
 // },
 
-// router.put('/:id', async (req, res) => {
-//
-// });
+router.put('/:id', async (req, res) => {
+    const {id} = req.params;
+    const actionUpdate = req.body;
+    try {
+        const action = await Actions.get(id);
+        if (action) {
+            await Actions.update(id, actionUpdate);
+            return res.status(200).json({
+                message: "Action successfully updated",
+                action
+            })
+        } else {
+            res.status(404).json({
+                error: "The action with the specified ID does not exist"
+            })
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            error: "The action information could not be modified"
+        })
+    }
+});
 
 // remove: function(id) {
 //   return db('actions')
