@@ -3,6 +3,19 @@ const Actions = require('../data/helpers/actionModel');
 
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+    try {
+        const action = await Actions.get();
+        res.status(200).json(action)
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            error: "The actions information could not be retrieved."
+        })
+
+    }
+});
+
 //get: function(id) {
 //   let query = db('actions');
 //
@@ -18,16 +31,22 @@ const router = express.Router();
 //   });
 // },
 
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
+    const {id} = req.params;
+    const action = await Actions.get(id);
     try {
-        const action = await Actions.get();
-        res.status(200).json(action)
+        if (action) {
+            res.status(200).json(action);
+        } else {
+            res.status(404).json({
+                error: "The action with the specified ID does not exist"
+            })
+        }
     } catch (e) {
         console.log(e);
         res.status(500).json({
-            error: "The actions information could not be retrieved."
+            error: "The action information could not be retrieved"
         })
-
     }
 });
 
