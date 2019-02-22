@@ -94,9 +94,29 @@ router.post('/', async (req, res) => {
 //       .then(count => (count > 0 ? this.get(id) : null));
 //   },
 
-// router.put('/:id', async (req, res) => {
-//
-// });
+router.put('/:id', async (req, res) => {
+    const {id} = req.params;
+    const projectUpdate = req.body;
+    try {
+        const project = await Projects.get(id);
+        if (project) {
+            await Projects.update(id, projectUpdate);
+            return res.status(200).json({
+                message: "Project successfully updated",
+                project
+            })
+        } else {
+            res.status(404).json({
+                error: "The project with the specified ID does not exist"
+            })
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            error: "The project information could not be modified"
+        })
+    }
+});
 
 //   remove: function(id) {
 //     return db('projects')
